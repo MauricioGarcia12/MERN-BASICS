@@ -7,8 +7,8 @@ require ('./database');
 //iniciar programa
 async function main(){
     try{
-    await app.listen(4000);
-    console.log('server on 4000');
+    await app.listen(app.get('port'));
+    console.log('server on port',app.get('port'));
     }
     catch(error){
         console.log('That did not go well.')
