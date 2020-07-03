@@ -13,6 +13,7 @@ mongoose.connect(URI,
     {useUnifiedTopology: true,
      useNewUrlParser: true, 
     useCreateIndex: true,
+    useFindAndModify:false,
     useUnifiedTopology: true, });
 //creating connection
 const connection = mongoose.connection;

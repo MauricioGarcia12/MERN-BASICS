@@ -2,13 +2,18 @@
 const {Router} = require('express');
 const router =Router();
 
+//exporting controller
+const {getUsers,createUser,deleteUser}= require('../controllers/usersController');
+const { deleteNote } = require('../controllers/notesController');
+
 router.route('/')
-    .get((req,res)=>res.send('Users'))
-    .post();
+    .get(getUsers)
+    .post(createUser);
     
 router.route('/:id')
-    .put()
-    .delete();
+    //.get()
+   // .put()
+    .delete(deleteUser);
 
 
 module.exports = router;
