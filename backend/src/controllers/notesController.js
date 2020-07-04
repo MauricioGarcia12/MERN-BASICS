@@ -17,7 +17,7 @@ notes.createNote = async(req,res)=>{
     //creating a note with the data that we get
     const newNote = new Note({
         title,
-        contentt,
+        content,
         date,
         author
     });

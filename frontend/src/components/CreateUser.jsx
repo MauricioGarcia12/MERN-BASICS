@@ -54,19 +54,21 @@ export default class CreateUser extends Component {
             <div className="row">
                 <div className="col-md-4">
                     <div className="card cardbody">
-                        <h3>Create New User</h3>
-                        <form onSubmit={this.onSubmit}>
-                            <div className="form-group">
+                        <h3 className="p-1 text-center">Create New User</h3>
+                        <form onSubmit={this.onSubmit} className="">
+                            <div className="form-group p-2">
 
-                                <input type="text"
-                                className="form-control" 
+                                <input type="text m-1"
+                                className="form-control p-2" 
                                 value={this.state.username}
                                 onChange={this.onChangeUserName} />
                             </div>
-                            <button type="submit" className="btn btn-primary">
-                                Save
-                            </button>
-
+                            <div className="form-group d-flex justify-content-center">
+                                <button type="submit" className="btn btn-lg btn-primary">
+                                    Save
+                                </button>
+                            </div>
+                            
                         </form>
                     </div>
 

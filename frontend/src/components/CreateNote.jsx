@@ -11,17 +11,33 @@ export default class CreateNote extends Component {
         content:'',
         date: new Date()
     }
+
    async  componentDidMount(){
     //Getting the users
      const res=  await axios.get('http://localhost:4000/api/users')
         //returning the username of each user
-     this.setState({users: res.data.map(user => user.username)})
+     this.setState(
+        {users: res.data.map(user => user.username),
+        userSelected:res.data[0].username
+        })
     }
+
     // refreshing 
-    onSubmit = (e) =>{
-        console.log(this.state.title, this.state.content);
+    onSubmit = async (e) =>{
         e.preventDefault();
+        //Sending Data to the backend
+        const newNote = {
+            title: this.state.title,
+            content: this.state.content,
+            date: this.state.date,
+            author: this.state.userSelected
+
+        };
+         await axios.post('http://localhost:4000/api/notes', newNote);
+        window.location.href = '/'
+
     }
+
 
     //method for the onchange depending on the name of the input we update the value
     onInputCachange = e =>{
@@ -94,7 +110,7 @@ export default class CreateNote extends Component {
                         <form onSubmit={this.onSubmit}> 
 
 
-                            <button type="submit" className="btn btn-primary">Save</button>
+                            <button type="submit" className="btn-lg btn-primary">Save</button>
                         </form>
                     </div>
                 </div>
