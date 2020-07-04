@@ -1,4 +1,5 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {BrowserRouter as Switch, Route} from 'react-router-dom'
 import Navigation from './components/Navigation';
@@ -11,6 +12,7 @@ function App() {
   
     <Switch>
       <Navigation/>
+      
       <Route  path="/" exact  component={NoteList} />
       <Route path="/edit/:id" component={CreateNote} />
       <Route path="/create" component={CreateNote} />
