@@ -1,2 +1,2 @@
 ﻿# MERN-BASICS
-MERN APP that can create, deleting an User and also Creating, Updating, and Deleting a Note. 
+MERN APP that can create and delete an User and also Create, Update, and Delete a Note. 
