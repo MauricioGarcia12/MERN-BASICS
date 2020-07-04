@@ -8,18 +8,45 @@ export default class CreateUser extends Component {
         username:''
     }
 
+
     async componentDidMount(){
-        //Using Axios to get the users
-      const res =  await  axios.get('http://localhost:4000/api/users');
-    
-      this.setState({users: res.data});
+        this.getUsers()
 
     }
+
+     getUsers = async () =>{
+    //Using Axios to get the users
+      const res =  await  axios.get('http://localhost:4000/api/users');
+      this.setState({users: res.data});
+    }
+
     //event when you type in the input
     onChangeUserName = (e)=>{
         this.setState({
             username: e.target.value
         })
+    }
+    //event to create the user 
+    onSubmit = async e =>{
+           //cancel the state to refresh the page
+           e.preventDefault();
+        //Creating users with axios
+         await axios.post('http://localhost:4000/api/users', {
+            username:this.state.username
+        })
+        //cleaning the input value from the past user
+        this.setState({username:''});
+        //getting the users
+        this.getUsers();
+    }
+
+    //method to delete user from backend
+    deleteUser = async (id) =>{
+        //deleting
+         await axios.delete('http://localhost:4000/api/users/' + id);
+         //getting the users from the new list 
+         this.getUsers();
+
     }
 
     render() {
@@ -28,13 +55,17 @@ export default class CreateUser extends Component {
                 <div className="col-md-4">
                     <div className="card cardbody">
                         <h3>Create New User</h3>
-                        <form>
-                            <div className="formgroup">
+                        <form onSubmit={this.onSubmit}>
+                            <div className="form-group">
 
                                 <input type="text"
                                 className="form-control" 
+                                value={this.state.username}
                                 onChange={this.onChangeUserName} />
                             </div>
+                            <button type="submit" className="btn btn-primary">
+                                Save
+                            </button>
 
                         </form>
                     </div>
@@ -45,8 +76,11 @@ export default class CreateUser extends Component {
                         
                         {
                             //mapping all the users from backend
+                            //using an event sending the user id to the method on double click
                             this.state.users.map(user=>
-                                <li className="list-group-item list-group-item-action" key={user.id}>
+                                <li className="list-group-item list-group-item-action" 
+                                    key={user._id}
+                                    onDoubleClick={() => this.deleteUser(user._id)}>
                                     {user.username}
                                 </li>)
                         }
