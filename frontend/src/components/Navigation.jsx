@@ -3,9 +3,9 @@ import {Link} from 'react-router-dom';
 export default class Navigation extends Component {
     render() {
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav className="navbar navbar-expand-lg navbar-bg ">
                 <div className="container">
-                    <Link className="navbar-brand" to="/">Notes App</Link>
+                    <Link className="navbar-brand nav-link" to="/">Notes App</Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>

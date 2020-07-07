@@ -9,10 +9,14 @@ export default class CreateNote extends Component {
         userSelected:'',
         title:'',
         content:'',
-        date: new Date()
+        date: new Date(),
+        editing:false,
+        _id:''
     }
 
    async  componentDidMount(){
+
+    
     //Getting the users
      const res=  await axios.get('http://localhost:4000/api/users')
         //returning the username of each user
@@ -20,22 +24,46 @@ export default class CreateNote extends Component {
         {users: res.data.map(user => user.username),
         userSelected:res.data[0].username
         })
+
+    //getting id for edit, if theres an id to edit we put editing on true
+
+        if(this.props.match.params.id){
+
+            //getting data from the note to edit to put it in the form
+           const res =  await axios.get('http://localhost:4000/api/notes/'+this.props.match.params.id)
+            console.log(res)
+           this.setState({
+                title: res.data.title,
+                content: res.data.content,
+                date:new Date (res.data.date),
+                userSelected: res.data.author,
+                editing:true,
+                _id: this.props.match.params
+            })
+        }
     }
 
     // refreshing 
     onSubmit = async (e) =>{
         e.preventDefault();
-        //Sending Data to the backend
         const newNote = {
             title: this.state.title,
             content: this.state.content,
-            date: this.state.date,
+            date:this.state.date,
             author: this.state.userSelected
-
         };
-         await axios.post('http://localhost:4000/api/notes', newNote);
-        window.location.href = '/'
+        //if the editing flag is true, we update the new note
+        if(this.state.editing){
+            await axios.put('http://localhost:4000/api/notes/'+this.state._id,newNote);
 
+        }
+        else{
+            await axios.post('http://localhost:4000/api/notes', newNote);
+
+        }
+        //Sending Data to the backend
+       
+        window.location.href = '/'
     }
 
 
@@ -63,6 +91,7 @@ export default class CreateNote extends Component {
                             <select 
                             name="userSelected"
                             onChange={this.onInputCachange}
+                            defaultValue={this.state.userSelected }
                             className="form-control">
                                 {
                                     //mapping the state and showing the username to the frontend
@@ -84,6 +113,7 @@ export default class CreateNote extends Component {
                                 name="title"
                                 required
                                 onChange={this.onInputCachange}
+                                value={this.state.title }
                                 />
                         </div>
 
@@ -94,6 +124,8 @@ export default class CreateNote extends Component {
                                 placeholder="Content"
                                 required
                                 onChange={this.onInputCachange}
+                                defaultValue={this.state.content }
+
                                  >
 
                             </textarea>
@@ -104,6 +136,7 @@ export default class CreateNote extends Component {
                             className="form-control"
                             selected={this.state.date}
                             onChange={this.onChangeDate}
+
                             />
                         </div>
 
